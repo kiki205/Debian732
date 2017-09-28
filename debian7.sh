@@ -33,7 +33,7 @@ sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 service ssh restart
 
 # set repo
-wget -O /etc/apt/sources.list "http://deb.mbahshondong.com/Debian7/sources.list.debian7"
+wget -O /etc/apt/sources.list "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/sources.list.debian7"
 wget "http://www.dotdeb.org/dotdeb.gpg"
 wget "http://www.webmin.com/jcameron-key.asc"
 cat dotdeb.gpg | apt-key add -;rm dotdeb.gpg
@@ -126,39 +126,39 @@ chmod 0600 /swapfile
 cd
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
-wget -O /etc/nginx/nginx.conf "http://deb.mbahshondong.com/Debian7/nginx.conf"
+wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/nginx.conf"
 mkdir -p /home/vps/public_html
 echo "<pre>Welcome webserver MBAH SHONDONG Hawok Hawok Jozz</pre>" > /home/vps/public_html/index.html
-wget -O /etc/nginx/conf.d/vps.conf "http://deb.mbahshondong.com/Debian7/vps.conf"
+wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/vps.conf"
 sed -i 's/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php5/fpm/pool.d/www.conf
 service php5-fpm restart
 service nginx restart
 
 # install openvpn
-wget -O /etc/openvpn/openvpn.tar "http://deb.mbahshondong.com/Debian7/openvpn-debian.tar"
+wget -O /etc/openvpn/openvpn.tar "https://github.com/Mbah-Shondong/Debian732/raw/master/Debian7/openvpn-debian.tar"
 cd /etc/openvpn/
 tar xf openvpn.tar
-wget -O /etc/openvpn/1194.conf "http://deb.mbahshondong.com/Debian7/1194.conf"
+wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/1194.conf"
 service openvpn restart
 sysctl -w net.ipv4.ip_forward=1
 sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
 iptables -t nat -I POSTROUTING -s 192.168.100.0/24 -o eth0 -j MASQUERADE
 iptables-save > /etc/iptables_yg_baru_dibikin.conf
-wget -O /etc/network/if-up.d/iptables "http://deb.mbahshondong.com/Debian7/iptables"
+wget -O /etc/network/if-up.d/iptables "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/iptables"
 chmod +x /etc/network/if-up.d/iptables
 service openvpn restart
 
 #konfigurasi openvpn
 cd /etc/openvpn/
-wget -O /etc/openvpn/client.ovpn "http://deb.mbahshondong.com/Debian7/client-1194.conf"
+wget -O /etc/openvpn/client.ovpn "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/client-1194.conf"
 sed -i $MYIP2 /etc/openvpn/client.ovpn;
 cp client.ovpn /home/vps/public_html/
 
 cd
 # install badvpn
-wget -O /usr/bin/badvpn-udpgw "http://deb.mbahshondong.com/Debian7/badvpn-udpgw"
+wget -O /usr/bin/badvpn-udpgw "https://github.com/Mbah-Shondong/Debian732/raw/master/Debian7/badvpn-udpgw"
 if [ "$OS" == "x86_64" ]; then
-  wget -O /usr/bin/badvpn-udpgw "http://deb.mbahshondong.com/Debian7/badvpn-udpgw64"
+  wget -O /usr/bin/badvpn-udpgw "https://github.com/Mbah-Shondong/Debian732/raw/master/Debian7/badvpn-udpgw64"
 fi
 sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local
 chmod +x /usr/bin/badvpn-udpgw
@@ -166,8 +166,8 @@ screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
 
 # install mrtg
 #apt-get update;apt-get -y install snmpd;
-wget -O /etc/snmp/snmpd.conf "http://deb.mbahshondong.com/Debian7/snmpd.conf"
-wget -O /root/mrtg-mem "http://deb.mbahshondong.com/Debian7/mrtg-mem.sh"
+wget -O /etc/snmp/snmpd.conf "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/snmpd.conf"
+wget -O /root/mrtg-mem "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/mrtg-mem.sh"
 chmod +x /root/mrtg-mem
 cd /etc/snmp/
 sed -i 's/TRAPDRUN=no/TRAPDRUN=yes/g' /etc/default/snmpd
@@ -175,7 +175,7 @@ service snmpd restart
 snmpwalk -v 1 -c public localhost 1.3.6.1.4.1.2021.10.1.3.1
 mkdir -p /home/vps/public_html/mrtg
 cfgmaker --zero-speed 100000000 --global 'WorkDir: /home/vps/public_html/mrtg' --output /etc/mrtg.cfg public@localhost
-curl "http://deb.mbahshondong.com/Debian7/mrtg.conf" >> /etc/mrtg.cfg
+curl "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/mrtg.conf" >> /etc/mrtg.cfg
 sed -i 's/WorkDir: \/var\/www\/mrtg/# WorkDir: \/var\/www\/mrtg/g' /etc/mrtg.cfg
 sed -i 's/# Options\[_\]: growright, bits/Options\[_\]: growright/g' /etc/mrtg.cfg
 indexmaker --output=/home/vps/public_html/mrtg/index.html /etc/mrtg.cfg
@@ -202,7 +202,7 @@ service dropbear restart
 
 # install vnstat gui
 cd /home/vps/public_html/
-wget http://deb.mbahshondong.com/Debian7/vnstat_php_frontend-1.5.1.tar.gz
+wget https://github.com/Mbah-Shondong/Debian732/raw/master/Debian7/vnstat_php_frontend-1.5.1.tar.gz
 tar xf vnstat_php_frontend-1.5.1.tar.gz
 rm vnstat_php_frontend-1.5.1.tar.gz
 mv vnstat_php_frontend-1.5.1 vnstat
@@ -219,7 +219,7 @@ apt-get -y install fail2ban;service fail2ban restart;
 
 # install squid3
 apt-get -y install squid3
-wget -O /etc/squid3/squid.conf "http://deb.mbahshondong.com/Debian7/squid3.conf"
+wget -O /etc/squid3/squid.conf "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/squid3.conf"
 sed -i $MYIP2 /etc/squid3/squid.conf;
 service squid3 restart
 
@@ -234,34 +234,34 @@ service webmin restart
 service vnstat restart
 
 # install pptp vpn
-wget http://deb.mbahshondong.com/Debian7/pptp.sh
+wget https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/pptp.sh
 chmod +x pptp.sh
 ./pptp.sh
 
 # download script
 cd
-wget -O /usr/bin/benchmark "http://deb.mbahshondong.com/Debian7/benchmark.sh"
-wget -O /usr/bin/speedtest "http://deb.mbahshondong.com/Debian7/speedtest.py"
-wget -O /usr/bin/ps_mem "http://deb.mbahshondong.com/Debian7/ps_mem.py"
-wget -O /etc/issue.net "http://deb.mbahshondong.com/Debian7/banner"
-wget -O /usr/bin/dropmon "http://deb.mbahshondong.com/Debian7/dropmon.sh"
-wget -O /usr/bin/menu "http://deb.mbahshondong.com/Debian7/menu.sh"
-wget -O /usr/bin/user-add "http://deb.mbahshondong.com/Debian7/user-add.sh"
-wget -O /usr/bin/user-add-vpn "http://deb.mbahshondong.com/Debian7/user-add-vpn.sh"
-wget -O /usr/bin/user-add-pptp "http://deb.mbahshondong.com/Debian7/user-add-pptp.sh"
-wget -O /usr/bin/user-expire "http://deb.mbahshondong.com/Debian7/user-expire.sh"
-wget -O /usr/bin/user-gen "http://deb.mbahshondong.com/Debian7/user-gen.sh"
-wget -O /usr/bin/user-limit "http://deb.mbahshondong.com/Debian7/user-limit.sh"
-wget -O /usr/bin/user-list "http://deb.mbahshondong.com/Debian7/user-list.sh"
-wget -O /usr/bin/user-login "http://deb.mbahshondong.com/Debian7/user-login.sh"
-wget -O /usr/bin/user-active-list "http://deb.mbahshondong.com/Debian7/user-active-list.sh"
-wget -O /usr/bin/user-renew "http://deb.mbahshondong.com/Debian7/user-renew.sh"
-wget -O /usr/bin/user-del "http://deb.mbahshondong.com/Debian7/user-del.sh"
-wget -O /usr/bin/user-pass "http://deb.mbahshondong.com/Debian7/user-pass.sh"
-wget -O /usr/bin/user-expire-list "http://deb.mbahshondong.com/Debian7/user-expire-list.sh"
-wget -O /usr/bin/user-banned "http://deb.mbahshondong.com/Debian7/user-banned.sh"
-wget -O /usr/bin/unbanned-user "http://deb.mbahshondong.com/Debian7/unbanned-user.sh"
-wget -O /usr/bin/delete-user-expire "http://deb.mbahshondong.com/Debian7/delete-user-expire.sh"
+wget -O /usr/bin/benchmark "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/benchmark.sh"
+wget -O /usr/bin/speedtest "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/speedtest.py"
+wget -O /usr/bin/ps_mem "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/ps_mem.py"
+wget -O /etc/issue.net "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/banner"
+wget -O /usr/bin/dropmon "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/dropmon.sh"
+wget -O /usr/bin/menu "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/menu.sh"
+wget -O /usr/bin/user-add "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/user-add.sh"
+wget -O /usr/bin/user-add-vpn "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/user-add-vpn.sh"
+wget -O /usr/bin/user-add-pptp "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/user-add-pptp.sh"
+wget -O /usr/bin/user-expire "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/user-expire.sh"
+wget -O /usr/bin/user-gen "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/user-gen.sh"
+wget -O /usr/bin/user-limit "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/user-limit.sh"
+wget -O /usr/bin/user-list "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/user-list.sh"
+wget -O /usr/bin/user-login "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/user-login.sh"
+wget -O /usr/bin/user-active-list "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/user-active-list.sh"
+wget -O /usr/bin/user-renew "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/user-renew.sh"
+wget -O /usr/bin/user-del "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/user-del.sh"
+wget -O /usr/bin/user-pass "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/user-pass.sh"
+wget -O /usr/bin/user-expire-list "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/user-expire-list.sh"
+wget -O /usr/bin/user-banned "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/user-banned.sh"
+wget -O /usr/bin/unbanned-user "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/unbanned-user.sh"
+wget -O /usr/bin/delete-user-expire "https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/Debian7/delete-user-expire.sh"
 echo "0 0 * * * root /usr/bin/user-expire" > /etc/cron.d/user-expire
 echo "* * * * * service dropbear restart" > /etc/cron.d/dropbear
 chmod +x /usr/bin/benchmark
@@ -315,11 +315,13 @@ echo "OpenVPN  : TCP 1194 (client config : http://$MYIP:81/client.ovpn)"  | tee 
 echo "badvpn   : badvpn-udpgw port 7300" | tee -a log-install.txt
 echo "nginx    : 81" | tee -a log-install.txt
 echo "" | tee -a log-install.txt
+
 echo "Tools :" | tee -a log-install.txt
 echo "-------" | tee -a log-install.txt
 echo "axel, bmon, htop, iftop, mtr, rkhunter, nethogs: nethogs $ether" | tee -a log-install.txt
 echo "" | tee -a log-install.txt
 echo "Script :" | tee -a log-install.txt
+
 echo "--------" | tee -a log-install.txt
 echo "  - menu (Menu Script VPS via Putty) :" | tee -a log-install.txt
 echo "  - Buat Akun SSH/OpenVPN (user-add)" | tee -a log-install.txt
@@ -342,6 +344,7 @@ echo "  - Speedtest (speedtest --share)" | tee -a log-install.txt
 echo "  - Benchmark (benchmark)" | tee -a log-install.txt
 echo "  - Reboot Server" | tee -a log-install.txt
 echo "" | tee -a log-install.txt
+
 echo "Fitur lain :" | tee -a log-install.txt
 echo "------------" | tee -a log-install.txt
 echo "Webmin         : http://$MYIP:10000/" | tee -a log-install.txt
@@ -362,6 +365,7 @@ echo "Internet Gratis Sak Modarre" | tee -a log-install.txt
 echo "" | tee -a log-install.txt
 echo "Log Instalasi --> /root/log-install.txt" | tee -a log-install.txt
 echo "" | tee -a log-install.txt
+
 echo "***************SETUP COMPLETED********************" | tee -a log-install.txt
 echo "-----------SILAHKAN REBOOT VPS ANDA---------------" | tee -a log-install.txt
 echo "==================================================" | tee -a log-install.txt
