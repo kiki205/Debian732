@@ -8,37 +8,8 @@ red='\e[1;31m'
 yellow='\e[1;33m'
 BlueF='\e[1;34m'
 
-if [[ $USER != 'root' ]]; then
-	echo -e $yellow"Maaf, Anda harus menjalankan ini sebagai root"
-	exit
-fi
-
-MYIP=$(wget -qO- ipv4.icanhazip.com)
-
-
-vps="vps";
-
-if [[ $vps = "iqbalfaf" ]]; then
-	source="http://deb.mbahshondong.com"
-else
-	source="http://deb.mbahshondong.com"
-fi
-
 # go to root
 cd
-
-# check registered ip
-wget -q -O IP $source/IP.txt
-if ! grep -w -q $MYIP IP; then
-	echo -e $yellow"Maaf, hanya IP yang terdaftar yang bisa menggunakan script ini"
-	if [[ $vps = "iqbalfaf" ]]; then
-		echo "Hubungi: Mbah Shondong Daftar IP Free"
-	else
-		echo "SMS 082322649802 https://facebook.com/ngamalembahe"
-	fi
-	rm -f /root/IP
-	exit
-fi
 
 while :
 do
@@ -94,7 +65,7 @@ do
 	echo ""
 	echo -e $white" x) Exit"
 	echo ""
-	echo     "TTD. admin@mbahshondong.com"
+	echo     "TTD. Mbah Shondong"
 	read -p  "Ketik No Yang Anda Mau,,Tekan Enter √: " option1
 	case $option1 in
 		1)
@@ -201,7 +172,7 @@ do
        ;;
        21)
        clear
-       wget http://deb.mbahshondong.com/update.sh
+       wget https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/update.sh
        chmod +x update.sh
       ./update.sh
        exit
@@ -219,4 +190,3 @@ do
 done
 
 cd ~/
-rm -f /root/IP
