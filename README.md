@@ -6,9 +6,9 @@ Auto Install Script Untuk Seller SSH VPS Debian7 32bit
 wget https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/debian7.sh && chmod +x debian7.sh && ./debian7.sh
 
 atau masukkan satu satu           
-wget https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/debian7.sh
-chmod +x debian7.sh           
-./debian7.sh      
+wget https://raw.githubusercontent.com/Mbah-Shondong/Debian732/master/debian7.sh        
+chmod +x debian7.sh                     
+./debian7.sh                
 
 Autoscript Include Service:
 ---------------------------
