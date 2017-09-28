@@ -8,40 +8,9 @@ red='\e[1;31m'
 yellow='\e[1;33m'
 BlueF='\e[1;34m'
 
-if [[ $USER != 'root' ]]; then
-	echo "Maaf, Anda harus menjalankan ini sebagai root"
-	exit
-fi
-
-MYIP=$(wget -qO- ipv4.icanhazip.com)
-
-#vps="iqbalfaf";
-vps="vps";
-
-if [[ $vps = "iqbalfaf" ]]; then
-	source="http://deb.mbahshondong.com"
-else
-	source="http://deb.mbahshondong.com"
-fi
-
 # go to root
 cd
 
-# check registered ip
-wget -q -O IP $source/IP.txt
-if ! grep -w -q $MYIP IP; then
-	echo -e $yellow"Maaf, hanya IP yang terdaftar yang bisa menggunakan script ini"
-	if [[ $vps = "iqbalfaf" ]]; then
-		echo "Hubungi: Mbah Shondong Daftar IP Free"
-	else
-		echo -e $white"SMS 082322649802 https://facebook.com/ngamalembahe"
-	fi
-	rm -f /root/IP
-	exit
-fi
-
-u="iqbalfaf"
-p="debian7iqbal"
 
 # get the VPS IP
 #ip=`ifconfig venet0:0 | grep 'inet addr' | awk {'print $2'} | sed s/.*://`
@@ -130,4 +99,3 @@ echo "Username:$u ##### Password: $p"
 echo "######################################################"
 
 cd ~/
-rm -f /root/IP
