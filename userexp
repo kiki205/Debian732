@@ -1,4 +1,7 @@
 #!/bin/bash
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
 echo "" > /root/infouser.txt
 echo "" > /root/expireduser.txt
 echo "" > /root/alluser.txt
